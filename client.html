@@ -43,14 +43,12 @@ function onConnect() {
   document.getElementById("submsg").innerHTML = "New connection made...";
   var mqtt_destname = document.getElementById("mqtt_destname").value;  
   client.subscribe(mqtt_destname);
-  document.getElementById("submsg").innerHTML = "Subscribing to topic: " + mqtt_destname + " ...";
+  document.getElementById("submsg").innerHTML = "Subscribed to topic: " + mqtt_destname + ". Waiting for messages...";
 }
 function onMessageArrived(message) {
   count++;
-  var result = message.destinationName + " : " + message.payloadString + " " + count;
-  document.getElementById("submsg").innerHTML = result; //todo: append below rather
-  //todo: 2 images of D1 mini, one with LED on, one with LED off. 
-  //onMessageArrived toggles LED on for 1 second, then off again. 
+  var result = message.destinationName + " - received message: " + count;
+  document.getElementById("submsg").innerHTML = result;  
 }
 
 function publishMessage(message){
@@ -65,12 +63,11 @@ client.send(message);
 </script>
 
 <body>
-<h1>MQTT Subscribe Test Page</h1>
+<h1>LED WebSite Indicator Subscribe and Send Test Page</h1>
 
 Server Name: <input type="text" id="mqtt_server" value="159.65.184.34"><br><br>
 Websocket: <input type="text" id="mqtt_port" value="9001"><br><br>
-DestinationName: <input type="text" id="mqtt_destname" value="cpiiuakpau/LED"><br><br> 
-<!-- todo: use jinja to replace above with usr + "LED" -->
+Destination Name: <input type="text" id="mqtt_destname" value="cpiiuakpau/LED"><br><br> 
 
 <div>
 <button onclick="sub_mqtt_msg()">Subscribe to MQTT</button>
@@ -83,5 +80,8 @@ DestinationName: <input type="text" id="mqtt_destname" value="cpiiuakpau/LED"><b
 <h2>Subscribed Messages:</h2>
 <div id=submsg></div>
 </body>
-
+<br>
+<footer>
+  <a href="http://ledindicator.devsoft.co.za">Sign up to LED WebSite Indicator</a>
+</footer>
 </html>
